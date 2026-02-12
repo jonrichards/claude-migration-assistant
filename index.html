@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Migration Assistant</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c4603c'/><path d='M8 16h6l2-6 4 12 2-6h6' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+  <!-- CDN Dependencies (defer to avoid render-blocking) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/marked@17/lib/marked.umd.min.js"></script>
+  <script defer src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/markdown-preview.css">
+
+  <!-- App -->
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="app-header__title">Claude Migration Assistant</div>
+    <div class="app-header__progress" id="app-progress"></div>
+    <div class="app-header__actions">
+      <button class="btn btn--small btn--ghost" id="btn-export-session" title="Export session">
+        <i data-lucide="download" style="width:16px;height:16px;"></i>
+        <span>Save</span>
+      </button>
+      <button class="btn btn--small btn--ghost" id="btn-import-session" title="Import session">
+        <i data-lucide="upload" style="width:16px;height:16px;"></i>
+        <span>Load</span>
+      </button>
+      <button class="btn btn--small btn--ghost btn--danger" id="btn-reset" title="Reset all progress">
+        <i data-lucide="rotate-ccw" style="width:16px;height:16px;"></i>
+        <span>Reset</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="app-sidebar" id="app-sidebar"></nav>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <div class="app-main__content" id="step-container"></div>
+  </main>
+</body>
+</html>
