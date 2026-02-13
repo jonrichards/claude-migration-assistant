@@ -340,7 +340,7 @@ async function processSelectedUser(userUuid, pickerArea, progressArea, resultsAr
 // ─── Shared results display ───────────────────────────────────────────────────
 
 function showResults(resultsArea, state) {
-  const { conversations, artifacts, contextDocument, memoryScript } = state.exportData;
+  const { conversations, artifacts, contextDocument, memoryScript, userProjects } = state.exportData;
   if (!conversations) return;
 
   const { recent, archive } = categorizeByAge(conversations);
@@ -373,6 +373,10 @@ function showResults(resultsArea, state) {
       <div class="stat-card">
         <div class="stat-card__value">${(artifacts || []).length}</div>
         <div class="stat-card__label">Artifacts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__value">${(userProjects || []).length}</div>
+        <div class="stat-card__label">Projects</div>
       </div>
       <div class="stat-card">
         <div class="stat-card__value">${recent.length}</div>
@@ -408,6 +412,12 @@ function showResults(resultsArea, state) {
           ${icon('folder', 14)} artifacts/
           <span class="output-tree__count">${(artifacts || []).length} files</span>
         </div>
+        ${(userProjects || []).length > 0 ? `
+        <div class="output-tree__item output-tree__item--folder" style="--depth:1">
+          ${icon('folder', 14)} projects/
+          <span class="output-tree__count">${userProjects.length} projects</span>
+        </div>
+        ` : ''}
         <div class="output-tree__item output-tree__item--file" style="--depth:1">
           ${icon('file-text', 14)} context-document.md
         </div>

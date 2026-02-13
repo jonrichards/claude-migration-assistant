@@ -13,7 +13,7 @@ export async function buildMigrationPackage(state) {
 
   const zip = new JSZip();
   const root = zip.folder('migration-package');
-  const { conversations, artifacts, contextDocument, memoryScript } = state.exportData;
+  const { conversations, artifacts, contextDocument, memoryScript, userProjects } = state.exportData;
 
   if (!conversations || conversations.length === 0) {
     throw new Error('No conversations to package');
@@ -55,12 +55,38 @@ export async function buildMigrationPackage(state) {
     }
   }
 
-  // 4. Context document
+  // 4. Projects (admin mode)
+  if (userProjects && userProjects.length > 0) {
+    const projFolder = root.folder('projects');
+    const projIndex = userProjects.map(p => ({
+      name: p.name,
+      description: p.description || '',
+      docsCount: (p.docs || []).length
+    }));
+    projFolder.file('index.json', JSON.stringify(projIndex, null, 2));
+
+    for (const proj of userProjects) {
+      const projDir = projFolder.folder(safeFileName(proj.name));
+
+      // Write project metadata as a readable markdown file
+      let readme = `# ${proj.name}\n\n`;
+      if (proj.description) readme += `${proj.description}\n\n`;
+      if (proj.prompt_template) readme += `## Custom Instructions\n\n${proj.prompt_template}\n`;
+      projDir.file('README.md', readme);
+
+      // Write project docs
+      for (const doc of (proj.docs || [])) {
+        projDir.file(doc.filename, doc.content);
+      }
+    }
+  }
+
+  // 5. Context document
   if (contextDocument) {
     root.file('context-document.md', contextDocument);
   }
 
-  // 5. Memory import script
+  // 6. Memory import script
   if (memoryScript) {
     root.file('memory-import-script.txt', memoryScript);
   }
