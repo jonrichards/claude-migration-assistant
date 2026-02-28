@@ -5,6 +5,8 @@
 
 import { getMessageText, getDateRange } from './conversation-parser.js';
 
+const MAX_TOPICS = 25;
+
 const STOP_WORDS = new Set([
   'the','a','an','is','are','was','were','be','been','being','have','has','had',
   'do','does','did','will','would','could','should','may','might','shall','can',
@@ -130,7 +132,7 @@ function extractTopics(messages, totalConvs) {
   }
 
   scored.sort((a, b) => b.count - a.count);
-  return scored.slice(0, 25);
+  return scored.slice(0, MAX_TOPICS);
 }
 
 function detectTechTerms(messages) {

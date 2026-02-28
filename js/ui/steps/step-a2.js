@@ -443,7 +443,14 @@ function showResults(resultsArea, state) {
       const blob = await buildMigrationPackage(state);
       downloadBlob(blob, 'migration-package.zip');
     } catch (e) {
-      alert('Failed to build ZIP: ' + e.message);
+      console.error('Failed to build migration package:', e);
+      const errEl = dlBtn.parentElement.querySelector('.zip-error');
+      if (errEl) errEl.remove();
+      const msg = document.createElement('div');
+      msg.className = 'zip-error info-box info-box--error';
+      msg.style.marginTop = 'var(--space-sm)';
+      msg.textContent = 'Failed to build migration package. Please try again.';
+      dlBtn.parentElement.appendChild(msg);
     }
     dlBtn.disabled = false;
     dlBtn.innerHTML = `${icon('download', 14)} Download Migration Package`;

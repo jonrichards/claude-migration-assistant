@@ -3,6 +3,8 @@
  * Handles format variations across different export versions.
  */
 
+const RECENT_DAYS_DEFAULT = 90;
+
 export function parseConversations(raw) {
   if (!Array.isArray(raw)) {
     throw new Error('Expected conversations to be an array');
@@ -152,7 +154,7 @@ export function buildConversationIndex(conversations) {
   }));
 }
 
-export function categorizeByAge(conversations, recentDays = 90) {
+export function categorizeByAge(conversations, recentDays = RECENT_DAYS_DEFAULT) {
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - recentDays);
   const cutoffStr = cutoff.toISOString();

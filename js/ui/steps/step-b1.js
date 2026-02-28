@@ -121,6 +121,9 @@ function renderManualMode(container, stepState) {
       reader.onload = () => {
         updateStep('b1', { memoryCaptureContent: reader.result });
       };
+      reader.onerror = () => {
+        updateStep('b1', { memoryCaptureUploaded: false, memoryCaptureContent: null });
+      };
       reader.readAsText(files[0]);
     }
   });
