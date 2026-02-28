@@ -443,6 +443,7 @@ function showResults(resultsArea, state) {
       const blob = await buildMigrationPackage(state);
       downloadBlob(blob, 'migration-package.zip');
     } catch (e) {
+      console.error('Failed to build migration package:', e);
       const errEl = dlBtn.parentElement.querySelector('.zip-error');
       if (errEl) errEl.remove();
       const msg = document.createElement('div');

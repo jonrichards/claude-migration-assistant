@@ -3,9 +3,9 @@
  * Uses keyword frequency, tech term detection, and preference extraction.
  */
 
-const MAX_TOPICS = 25;
-
 import { getMessageText, getDateRange } from './conversation-parser.js';
+
+const MAX_TOPICS = 25;
 
 const STOP_WORDS = new Set([
   'the','a','an','is','are','was','were','be','been','being','have','has','had',
