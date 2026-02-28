@@ -51,7 +51,7 @@ function renderAdminMode(container, stepState, adminProjects) {
   if (!stepState.projects || stepState.projects.length === 0) {
     const stepProjects = adminProjects.map(p => ({
       name: p.name,
-      blueprintUploaded: true,
+      blueprintDownloaded: true,
       knowledgeFilesReady: true
     }));
     updateStep('b2', { projects: stepProjects });
@@ -152,8 +152,8 @@ function renderManualMode(container, stepState) {
     <div class="step-section">
       <div class="step-section__title">2. Add your projects</div>
       <div class="step-section__description">
-        Add each project below with its blueprint file. Also gather the original knowledge files
-        from each project -- you'll need to re-upload them in step B4.
+        Add each project below and confirm you've downloaded its blueprint. Also gather the original
+        knowledge files from each project -- you'll need to re-upload them in step B4.
       </div>
 
       <div id="b2-projects"></div>
@@ -188,7 +188,7 @@ function renderManualMode(container, stepState) {
     const current = getState().steps.b2.projects || [];
     current.push({
       name,
-      blueprintUploaded: false,
+      blueprintDownloaded: false,
       knowledgeFilesCount: 0
     });
     updateStep('b2', { projects: current });
@@ -229,8 +229,8 @@ function renderProjects(container, projects) {
         <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
           <label class="checkbox">
             <input type="checkbox" class="checkbox__input" data-action="blueprint" data-index="${i}"
-              ${proj.blueprintUploaded ? 'checked' : ''}>
-            <span class="checkbox__label">Blueprint uploaded</span>
+              ${proj.blueprintDownloaded ? 'checked' : ''}>
+            <span class="checkbox__label">Blueprint downloaded</span>
           </label>
           <label class="checkbox">
             <input type="checkbox" class="checkbox__input" data-action="knowledge" data-index="${i}"
@@ -259,7 +259,7 @@ function renderProjects(container, projects) {
     const idx = parseInt(cb.dataset.index);
     const current = getState().steps.b2.projects || [];
     if (cb.dataset.action === 'blueprint') {
-      current[idx].blueprintUploaded = cb.checked;
+      current[idx].blueprintDownloaded = cb.checked;
     } else if (cb.dataset.action === 'knowledge') {
       current[idx].knowledgeFilesReady = cb.checked;
     }

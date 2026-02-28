@@ -120,6 +120,17 @@ export function persistToStorage() {
   }
 }
 
+function migrateB2Projects() {
+  const projects = state.steps.b2.projects;
+  if (!projects) return;
+  for (const p of projects) {
+    if ('blueprintUploaded' in p) {
+      p.blueprintDownloaded = p.blueprintUploaded;
+      delete p.blueprintUploaded;
+    }
+  }
+}
+
 export function loadFromStorage() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -135,6 +146,7 @@ export function loadFromStorage() {
     }
     if (saved.exportMode) state.exportData.exportMode = saved.exportMode;
     if (saved.selectedUserUuid) state.exportData.selectedUserUuid = saved.selectedUserUuid;
+    migrateB2Projects();
     return true;
   } catch (e) {
     console.warn('Failed to load state:', e);
@@ -163,6 +175,7 @@ export function importSessionJSON(json) {
         }
       }
     }
+    migrateB2Projects();
     notify();
     persistToStorage();
     return true;
