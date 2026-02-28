@@ -75,11 +75,11 @@ function renderMarkdown(md) {
 }
 
 function sanitizeHtml(html) {
-  // Strip script/iframe/object/embed tags and on* event attributes
-  return html
-    .replace(/<\s*(script|iframe|object|embed|form|base|meta|link)[^>]*>[\s\S]*?<\/\s*\1\s*>/gi, '')
-    .replace(/<\s*(script|iframe|object|embed|form|base|meta|link)[^>]*\/?>/gi, '')
-    .replace(/\s+on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
-    .replace(/javascript\s*:/gi, '');
+  if (typeof DOMPurify !== 'undefined') {
+    return DOMPurify.sanitize(html);
+  }
+  // Fallback: strip all HTML if DOMPurify is unavailable
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
 }
 
