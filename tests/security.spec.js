@@ -20,9 +20,12 @@ test.describe('Security', () => {
     const count = await scripts.count();
     expect(count).toBeGreaterThan(0);
     for (let i = 0; i < count; i++) {
-      const integrity = await scripts.nth(i).getAttribute('integrity');
+      const script = scripts.nth(i);
+      const integrity = await script.getAttribute('integrity');
       expect(integrity, `Script ${i} missing integrity attribute`).toBeTruthy();
       expect(integrity).toMatch(/^sha384-/);
+      const crossorigin = await script.getAttribute('crossorigin');
+      expect(crossorigin, `Script ${i} missing crossorigin attribute`).toBe('anonymous');
     }
   });
 
