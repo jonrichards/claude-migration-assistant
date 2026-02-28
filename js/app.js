@@ -60,6 +60,9 @@ function setupHeaderActions() {
             alert('Failed to import session. The file may be corrupted.');
           }
         };
+        reader.onerror = () => {
+          alert('Failed to read file. Please try again.');
+        };
         reader.readAsText(file);
       });
       input.click();
