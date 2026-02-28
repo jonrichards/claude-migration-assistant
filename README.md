@@ -73,7 +73,7 @@ In admin mode, steps B1 and B2 are auto-populated from the export data.
 Static single-page app with no server component:
 
 ```
-index.html              # Shell with CDN deps (JSZip, Lucide, Marked)
+index.html              # Shell with CDN deps (JSZip, Marked, Lucide, FileSaver, DOMPurify)
 css/
   variables.css         # Design tokens
   layout.css            # App shell layout
@@ -101,13 +101,23 @@ js/
     steps/              # One module per step (step-a1.js .. step-b6.js)
 ```
 
-## Privacy
+## Privacy & Security
 
 All processing happens in your browser. The app:
-- Does not make any network requests (beyond loading CDN libraries)
-- Does not send your data anywhere
+- Does not make any network requests (beyond loading CDN libraries on page load)
+- Does not send your data anywhere -- enforced by a `connect-src 'none'` Content Security Policy
 - Stores only step completion state in localStorage (not conversation data)
 - Can export/import session progress as a local JSON file
+- All CDN scripts are pinned to exact versions with Subresource Integrity (SRI) hashes
+- HTML from user data is sanitized with DOMPurify before rendering
+
+## Testing
+
+```bash
+npm install
+npx playwright install chromium
+npx playwright test
+```
 
 ## License
 
