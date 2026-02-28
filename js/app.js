@@ -57,11 +57,11 @@ function setupHeaderActions() {
           if (ok) {
             window.location.reload();
           } else {
-            alert('Failed to import session. The file may be corrupted.');
+            showHeaderError('Failed to import session. The file may be corrupted.');
           }
         };
         reader.onerror = () => {
-          alert('Failed to read file. Please try again.');
+          showHeaderError('Failed to read file. Please try again.');
         };
         reader.readAsText(file);
       });
@@ -77,6 +77,17 @@ function setupHeaderActions() {
       }
     });
   }
+}
+
+function showHeaderError(message) {
+  const existing = document.querySelector('.header-error');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'header-error info-box info-box--error';
+  el.style.cssText = 'position:fixed;top:var(--space-lg);right:var(--space-lg);z-index:1000;max-width:360px;';
+  el.textContent = message;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 5000);
 }
 
 // Boot
