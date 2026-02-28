@@ -4,3 +4,11 @@ test-results/
 playwright-report/
 .claude/settings.local.json
 *.DS_Store
+
+# Sensitive files
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
