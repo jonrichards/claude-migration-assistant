@@ -3,6 +3,8 @@
  * from human messages in conversations.
  */
 
+const MAX_MEMORY_FACTS = 30;
+
 import { getMessageText } from './conversation-parser.js';
 
 const MEMORY_PATTERNS = [
@@ -45,7 +47,7 @@ export function generateMemoryScript(conversations) {
   // Sort by frequency, take top 30
   const topFacts = Array.from(facts.values())
     .sort((a, b) => b.count - a.count)
-    .slice(0, 30);
+    .slice(0, MAX_MEMORY_FACTS);
 
   if (topFacts.length === 0) {
     return [

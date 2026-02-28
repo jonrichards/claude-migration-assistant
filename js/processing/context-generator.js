@@ -3,6 +3,8 @@
  * Uses keyword frequency, tech term detection, and preference extraction.
  */
 
+const MAX_TOPICS = 25;
+
 import { getMessageText, getDateRange } from './conversation-parser.js';
 
 const STOP_WORDS = new Set([
@@ -130,7 +132,7 @@ function extractTopics(messages, totalConvs) {
   }
 
   scored.sort((a, b) => b.count - a.count);
-  return scored.slice(0, 25);
+  return scored.slice(0, MAX_TOPICS);
 }
 
 function detectTechTerms(messages) {
