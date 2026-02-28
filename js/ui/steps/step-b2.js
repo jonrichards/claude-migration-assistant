@@ -189,7 +189,7 @@ function renderManualMode(container, stepState) {
     current.push({
       name,
       blueprintDownloaded: false,
-      knowledgeFilesCount: 0
+      knowledgeFilesReady: false
     });
     updateStep('b2', { projects: current });
     renderProjects(projectsContainer, current);
